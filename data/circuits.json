@@ -1,0 +1,200 @@
+[{
+  "_id": "imola",
+  "name": "Autodromo Enzo e Dino Ferrari",
+  "location": "Imola, Italy",
+  "length_km": 4.909,
+  "corners": 19,
+  "type": "Permanent"
+},
+{
+  "_id": "montreal",
+  "name": "Circuit Gilles Villeneuve",
+  "location": "Montreal, Canada",
+  "length_km": 4.361,
+  "corners": 14,
+  "type": "Street"
+},
+{
+  "_id": "spa",
+  "name": "Circuit de Spa-Francorchamps",
+  "location": "Stavelot, Belgium",
+  "length_km": 7.004,
+  "corners": 20,
+  "type": "Permanent"
+},
+{
+  "_id": "zandvoort",
+  "name": "Circuit Zandvoort",
+  "location": "Zandvoort, Netherlands",
+  "length_km": 4.259,
+  "corners": 14,
+  "type": "Permanent"
+},
+{
+  "_id": "monza",
+  "name": "Autodromo Nazionale Monza",
+  "location": "Monza, Italy",
+  "length_km": 5.793,
+  "corners": 11,
+  "type": "Permanent"
+},
+{
+  "_id": "hermanos-rodriguez",
+  "name": "Autódromo Hermanos Rodríguez",
+  "location": "Mexico City, Mexico",
+  "length_km": 4.304,
+  "corners": 17,
+  "type": "Permanent"
+},
+{
+  "_id": "lusail",
+  "name": "Lusail International Circuit",
+  "location": "Lusail, Qatar",
+  "length_km": 5.419,
+  "corners": 16,
+  "type": "Permanent"
+},
+{
+  "_id": "barcelona",
+  "name": "Circuit de Barcelona-Catalunya",
+  "location": "Barcelona, Spain",
+  "length_km": 4.657,
+  "corners": 14,
+  "type": "Permanent"
+},
+{
+  "_id": "albert-park",
+  "name": "Albert Park Grand Prix Circuit",
+  "location": "Melbourne, Australia",
+  "length_km": 5.278,
+  "corners": 14,
+  "type": "Street/Hybrid"
+},
+{
+  "_id": "hungaroring",
+  "name": "Hungaroring",
+  "location": "Budapest, Hungary",
+  "length_km": 4.381,
+  "corners": 14,
+  "type": "Permanent"
+},
+{
+  "_id": "suzuka",
+  "name": "Suzuka International Racing Course",
+  "location": "Suzuka, Japan",
+  "length_km": 5.807,
+  "corners": 18,
+  "type": "Permanent"
+},
+{
+  "_id": "spielberg",
+  "name": "Red Bull Ring",
+  "location": "Spielberg, Austria",
+  "length_km": 4.318,
+  "corners": 10,
+  "type": "Permanent"
+},
+{
+  "_id": "miami",
+  "name": "Miami International Autodrome",
+  "location": "Miami, USA",
+  "length_km": 5.41,
+  "corners": 19,
+  "type": "Street"
+},
+{
+  "_id": "monaco",
+  "name": "Circuit de Monaco",
+  "location": "Monte Carlo, Monaco",
+  "length_km": 3.337,
+  "corners": 19,
+  "type": "Street"
+},
+{
+  "_id": "las-vegas",
+  "name": "Las Vegas Strip Circuit",
+  "location": "Las Vegas, USA",
+  "length_km": 6.201,
+  "corners": 17,
+  "type": "Street"
+},
+{
+  "_id": "yas-marina",
+  "name": "Yas Marina Circuit",
+  "location": "Abu Dhabi, UAE",
+  "length_km": 5.281,
+  "corners": 16,
+  "type": "Permanent"
+},
+{
+  "_id": "shanghai",
+  "name": "Shanghai International Circuit",
+  "location": "Shanghai, China",
+  "length_km": 5.451,
+  "corners": 16,
+  "type": "Permanent"
+},
+{
+  "_id": "jeddah",
+  "name": "Jeddah Corniche Circuit",
+  "location": "Jeddah, Saudi Arabia",
+  "length_km": 6.174,
+  "corners": 27,
+  "type": "Street"
+},
+{
+  "_id": "baku",
+  "name": "Baku City Circuit",
+  "location": "Baku, Azerbaijan",
+  "length_km": 6.003,
+  "corners": 20,
+  "type": "Street"
+},
+{
+  "_id": "cota",
+  "name": "Circuit of the Americas",
+  "location": "Austin, USA",
+  "length_km": 5.513,
+  "corners": 20,
+  "type": "Permanent"
+},
+{
+  "_id": "bahrain",
+  "name": "Bahrain International Circuit",
+  "location": "Sakhir, Bahrain",
+  "length_km": 5.412,
+  "corners": 15,
+  "type": "Permanent"
+},
+{
+  "_id": "madrid",
+  "name": "Madrid Street Circuit",
+  "location": "Madrid, Spain",
+  "length_km": 5.47,
+  "corners": 20,
+  "type": "Street"
+},
+{
+  "_id": "silverstone",
+  "name": "Silverstone Circuit",
+  "location": "Silverstone, UK",
+  "length_km": 5.891,
+  "corners": 18,
+  "type": "Permanent"
+},
+{
+  "_id": "marina-bay",
+  "name": "Marina Bay Street Circuit",
+  "location": "Singapore",
+  "length_km": 4.94,
+  "corners": 19,
+  "type": "Street"
+},
+{
+  "_id": "interlagos",
+  "name": "Autódromo José Carlos Pace",
+  "location": "São Paulo, Brazil",
+  "length_km": 4.309,
+  "corners": 15,
+  "type": "Permanent"
+}]

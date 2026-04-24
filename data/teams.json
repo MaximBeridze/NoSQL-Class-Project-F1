@@ -1,0 +1,88 @@
+[{
+  "_id": "ferrari",
+  "name": "Scuderia Ferrari HP",
+  "chassis": "SF-26",
+  "engine": "Ferrari 067/6",
+  "principal": "Frédéric Vasseur",
+  "all_time_wins": 248
+},
+{
+  "_id": "audi",
+  "name": "Audi Revolut F1 Team",
+  "chassis": "R26",
+  "engine": "Audi AFR 26",
+  "principal": "Mattia Binotto",
+  "all_time_wins": 0
+},
+{
+  "_id": "vcarb",
+  "name": "Visa Cash App Racing Bulls",
+  "chassis": "VCARB 03",
+  "engine": "Red Bull Ford DM01",
+  "principal": "Laurent Mekies",
+  "all_time_wins": 0
+},
+{
+  "_id": "williams",
+  "name": "Atlassian Williams Racing",
+  "chassis": "FW48",
+  "engine": "Mercedes-AMG M17",
+  "principal": "James Vowles",
+  "all_time_wins": 114
+},
+{
+  "_id": "mclaren",
+  "name": "McLaren Mastercard",
+  "chassis": "MCL40",
+  "engine": "Mercedes-AMG M17",
+  "principal": "Andrea Stella",
+  "all_time_wins": 203
+},
+{
+  "_id": "aston_martin",
+  "name": "Aston Martin Aramco",
+  "chassis": "AMR26",
+  "engine": "Honda RA626H",
+  "principal": "Mike Krack",
+  "all_time_wins": 1
+},
+{
+  "_id": "cadillac",
+  "name": "Cadillac Formula 1 Team",
+  "chassis": "MAC-26",
+  "engine": "Ferrari 067/6",
+  "principal": "Mario Andretti (Hon)",
+  "all_time_wins": 0
+},
+{
+  "_id": "alpine",
+  "name": "BWT Alpine F1 Team",
+  "chassis": "A526",
+  "engine": "Mercedes-AMG M17",
+  "principal": "Oliver Oakes",
+  "all_time_wins": 1
+},
+{
+  "_id": "mercedes",
+  "name": "Mercedes-AMG Petronas",
+  "chassis": "W17",
+  "engine": "Mercedes-AMG M17",
+  "principal": "Toto Wolff",
+  "all_time_wins": 134
+},
+{
+  "_id": "red_bull",
+  "name": "Oracle Red Bull Racing",
+  "chassis": "RB22",
+  "engine": "Red Bull Ford DM01",
+  "principal": "Christian Horner",
+  "all_time_wins": 130
+},
+{
+  "_id": "haas",
+  "name": "TGR Haas F1 Team",
+  "chassis": "VF-26",
+  "engine": "Ferrari 067/6",
+  "principal": "Ayao Komatsu",
+  "all_time_wins": 0
+}]

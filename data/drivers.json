@@ -1,0 +1,176 @@
+[{
+  "_id": "russell",
+  "name": "George Russell",
+  "team_id": "mercedes",
+  "number": 63,
+  "code": "RUS",
+  "titles": 0
+},
+{
+  "_id": "colapinto",
+  "name": "Franco Colapinto",
+  "team_id": "alpine",
+  "number": 43,
+  "code": "COL",
+  "titles": 0
+},
+{
+  "_id": "sainz",
+  "name": "Carlos Sainz",
+  "team_id": "williams",
+  "number": 55,
+  "code": "SAI",
+  "titles": 0
+},
+{
+  "_id": "verstappen",
+  "name": "Max Verstappen",
+  "team_id": "red_bull",
+  "number": 3,
+  "code": "VER",
+  "titles": 4
+},
+{
+  "_id": "bearman",
+  "name": "Oliver Bearman",
+  "team_id": "haas",
+  "number": 87,
+  "code": "BEA",
+  "titles": 0
+},
+{
+  "_id": "leclerc",
+  "name": "Charles Leclerc",
+  "team_id": "ferrari",
+  "number": 16,
+  "code": "LEC",
+  "titles": 0
+},
+{
+  "_id": "alonso",
+  "name": "Fernando Alonso",
+  "team_id": "aston_martin",
+  "number": 14,
+  "code": "ALO",
+  "titles": 2
+},
+{
+  "_id": "hulkenberg",
+  "name": "Nico Hulkenberg",
+  "team_id": "audi",
+  "number": 27,
+  "code": "HUL",
+  "titles": 0
+},
+{
+  "_id": "perez",
+  "name": "Sergio Perez",
+  "team_id": "cadillac",
+  "number": 11,
+  "code": "PER",
+  "titles": 0
+},
+{
+  "_id": "gasly",
+  "name": "Pierre Gasly",
+  "team_id": "alpine",
+  "number": 10,
+  "code": "GAS",
+  "titles": 0
+},
+{
+  "_id": "antonelli",
+  "name": "Kimi Antonelli",
+  "team_id": "mercedes",
+  "number": 12,
+  "code": "ANT",
+  "titles": 0
+},
+{
+  "_id": "stroll",
+  "name": "Lance Stroll",
+  "team_id": "aston_martin",
+  "number": 18,
+  "code": "STR",
+  "titles": 0
+},
+{
+  "_id": "norris",
+  "name": "Lando Norris",
+  "team_id": "mclaren",
+  "number": 1,
+  "code": "NOR",
+  "titles": 1
+},
+{
+  "_id": "albon",
+  "name": "Alex Albon",
+  "team_id": "williams",
+  "number": 23,
+  "code": "ALB",
+  "titles": 0
+},
+{
+  "_id": "bortoleto",
+  "name": "Gabriel Bortoleto",
+  "team_id": "audi",
+  "number": 5,
+  "code": "BOR",
+  "titles": 0
+},
+{
+  "_id": "lawson",
+  "name": "Liam Lawson",
+  "team_id": "vcarb",
+  "number": 30,
+  "code": "LAW",
+  "titles": 0
+},
+{
+  "_id": "lindblad",
+  "name": "Arvid Lindblad",
+  "team_id": "vcarb",
+  "number": 41,
+  "code": "LIN",
+  "titles": 0
+},
+{
+  "_id": "ocon",
+  "name": "Esteban Ocon",
+  "team_id": "haas",
+  "number": 31,
+  "code": "OCO",
+  "titles": 0
+},
+{
+  "_id": "hadjar",
+  "name": "Isack Hadjar",
+  "team_id": "red_bull",
+  "number": 6,
+  "code": "HAD",
+  "titles": 0
+},
+{
+  "_id": "piastri",
+  "name": "Oscar Piastri",
+  "team_id": "mclaren",
+  "number": 81,
+  "code": "PIA",
+  "titles": 0
+},
+{
+  "_id": "hamilton",
+  "name": "Lewis Hamilton",
+  "team_id": "ferrari",
+  "number": 44,
+  "code": "HAM",
+  "titles": 7
+},
+{
+  "_id": "bottas",
+  "name": "Valtteri Bottas",
+  "team_id": "cadillac",
+  "number": 77,
+  "code": "BOT",
+  "titles": 0
+}]

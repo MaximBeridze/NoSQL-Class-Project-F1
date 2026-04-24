@@ -1,0 +1,99 @@
+[{
+  "_id": "mercedes",
+  "name": "Mercedes-AMG Petronas F1 Team",
+  "base": "Brackley, UK",
+  "principal": "Toto Wolff",
+  "chassis": "F1 W17",
+  "powerUnit": "Mercedes-AMG F1 M17",
+  "engineManufacturerId": "mercedes"
+},
+{
+  "_id": "red_bull",
+  "name": "Oracle Red Bull Racing",
+  "base": "Milton Keynes, UK",
+  "principal": "Laurent Mekies",
+  "chassis": "RB22",
+  "powerUnit": "Red Bull Ford DM01",
+  "engineManufacturerId": "red-bull-ford"
+},
+{
+  "_id": "aston_martin",
+  "name": "Aston Martin Aramco F1 Team",
+  "base": "Silverstone, UK",
+  "principal": "Adrian Newey",
+  "chassis": "AMR26",
+  "powerUnit": "Honda RA626H",
+  "engineManufacturerId": "honda"
+},
+{
+  "_id": "williams",
+  "name": "Atlassian Williams F1 Team",
+  "base": "Grove, UK",
+  "principal": "James Vowles",
+  "chassis": "FW48",
+  "powerUnit": "Mercedes-AMG F1 M17",
+  "engineManufacturerId": "mercedes"
+},
+{
+  "_id": "haas",
+  "name": "TGR Haas F1 Team",
+  "base": "Kannapolis, USA",
+  "principal": "Ayao Komatsu",
+  "chassis": "VF-26",
+  "powerUnit": "Ferrari 067/6",
+  "engineManufacturerId": "ferrari"
+},
+{
+  "_id": "mclaren",
+  "name": "McLaren Mastercard F1 Team",
+  "base": "Woking, UK",
+  "principal": "Andrea Stella",
+  "chassis": "MCL40",
+  "powerUnit": "Mercedes-AMG F1 M17",
+  "engineManufacturerId": "mercedes"
+},
+{
+  "_id": "ferrari",
+  "name": "Scuderia Ferrari HP",
+  "base": "Maranello, Italy",
+  "principal": "Frédéric Vasseur",
+  "chassis": "SF-26",
+  "powerUnit": "Ferrari 067/6",
+  "engineManufacturerId": "ferrari"
+},
+{
+  "_id": "audi",
+  "name": "Audi Revolut F1 Team",
+  "base": "Neuburg, Germany",
+  "principal": "Jonathan Wheatley",
+  "chassis": "R26",
+  "powerUnit": "Audi AFR 26 Hybrid",
+  "engineManufacturerId": "audi"
+},
+{
+  "_id": "alpine",
+  "name": "BWT Alpine F1 Team",
+  "base": "Enstone, UK",
+  "principal": "Oliver Oakes",
+  "chassis": "A526",
+  "powerUnit": "Mercedes-AMG F1 M17",
+  "engineManufacturerId": "mercedes"
+},
+{
+  "_id": "vcarb",
+  "name": "Visa Cash App Racing Bulls F1 Team",
+  "base": "Faenza, Italy",
+  "principal": "Peter Bayer",
+  "chassis": "VCARB 03",
+  "powerUnit": "Red Bull Ford DM01",
+  "engineManufacturerId": "red-bull-ford"
+},
+{
+  "_id": "cadillac",
+  "name": "Cadillac Formula 1 Team",
+  "base": "Fishers, USA",
+  "principal": "Graeme Lowdon",
+  "chassis": "MAC-26",
+  "powerUnit": "Ferrari 067/6",
+  "engineManufacturerId": "ferrari"
+}]

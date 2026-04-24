@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632e"
+  },
+  "year": 2022,
+  "wikipedia": "https://en.wikipedia.org/wiki/2022_Formula_One_World_Championship",
+  "status": "Completed",
+  "regulations": "Ground Effect Era (Intro)"
+},
+{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632c"
+  },
+  "year": 2024,
+  "wikipedia": "https://en.wikipedia.org/wiki/2024_Formula_One_World_Championship",
+  "status": "Completed",
+  "regulations": "Ground Effect Era"
+},
+{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632b"
+  },
+  "year": 2025,
+  "wikipedia": "https://en.wikipedia.org/wiki/2025_Formula_One_World_Championship",
+  "status": "Completed",
+  "regulations": "Ground Effect Era (Final Year)"
+},
+{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632f"
+  },
+  "year": 2021,
+  "wikipedia": "https://en.wikipedia.org/wiki/2021_Formula_One_World_Championship",
+  "status": "Completed",
+  "regulations": "Hybrid Era"
+},
+{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632a"
+  },
+  "year": 2026,
+  "wikipedia": "https://en.wikipedia.org/wiki/2026_Formula_One_World_Championship",
+  "status": "Scheduled",
+  "regulations": "New Technical & Power Unit Era"
+},
+{
+  "_id": {
+    "$oid": "69ea5590388d08c60491632d"
+  },
+  "year": 2023,
+  "wikipedia": "https://en.wikipedia.org/wiki/2023_Formula_One_World_Championship",
+  "status": "Completed",
+  "regulations": "Ground Effect Era"
+}]

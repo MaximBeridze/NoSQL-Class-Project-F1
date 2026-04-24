@@ -1,0 +1,220 @@
+[{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630c"
+  },
+  "position": 4,
+  "driverId": "russell",
+  "points": 319,
+  "wins": 2,
+  "podiums": 8,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916315"
+  },
+  "position": 13,
+  "driverId": "bearman",
+  "points": 41,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630a"
+  },
+  "position": 2,
+  "driverId": "verstappen",
+  "points": 421,
+  "wins": 8,
+  "podiums": 11,
+  "status": "Runner-up"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916316"
+  },
+  "position": 14,
+  "driverId": "lawson",
+  "points": 38,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630d"
+  },
+  "position": 5,
+  "driverId": "leclerc",
+  "points": 242,
+  "wins": 1,
+  "podiums": 6,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916317"
+  },
+  "position": 15,
+  "driverId": "ocon",
+  "points": 38,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916313"
+  },
+  "position": 11,
+  "driverId": "hulkenberg",
+  "points": 51,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916314"
+  },
+  "position": 12,
+  "driverId": "hadjar",
+  "points": 51,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630b"
+  },
+  "position": 3,
+  "driverId": "piastri",
+  "points": 410,
+  "wins": 5,
+  "podiums": 10,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916318"
+  },
+  "position": 16,
+  "driverId": "stroll",
+  "points": 33,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916309"
+  },
+  "position": 1,
+  "driverId": "norris",
+  "points": 423,
+  "wins": 7,
+  "podiums": 12,
+  "status": "World Champion"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916311"
+  },
+  "position": 9,
+  "driverId": "sainz",
+  "points": 64,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491631a"
+  },
+  "position": 18,
+  "gasly": "norris",
+  "points": 22,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491631c"
+  },
+  "position": 20,
+  "colapinto": "norris",
+  "points": 0,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916312"
+  },
+  "position": 10,
+  "driverId": "alonso",
+  "points": 56,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916319"
+  },
+  "position": 17,
+  "driverId": "tsunoda",
+  "points": 33,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491631b"
+  },
+  "position": 19,
+  "bortoleto": "norris",
+  "points": 19,
+  "wins": 0,
+  "podiums": 0,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630e"
+  },
+  "position": 6,
+  "driverId": "hamilton",
+  "points": 156,
+  "wins": 0,
+  "podiums": 4,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c60491630f"
+  },
+  "position": 7,
+  "driverId": "antonelli",
+  "points": 150,
+  "wins": 0,
+  "podiums": 3,
+  "status": "Active"
+},
+{
+  "_id": {
+    "$oid": "69ea547b388d08c604916310"
+  },
+  "position": 8,
+  "driverId": "albon",
+  "points": 73,
+  "wins": 0,
+  "podiums": 1,
+  "status": "Active"
+}]

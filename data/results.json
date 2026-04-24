@@ -1,0 +1,50 @@
+[{
+  "_id": {
+    "$oid": "69ea5685388d08c60491634d"
+  },
+  "year": 2025,
+  "champion_driver": "Max Verstappen",
+  "champion_constructor": "McLaren",
+  "total_races": 24,
+  "regulations": "Ground Effect (Final Year)"
+},
+{
+  "_id": {
+    "$oid": "69ea5685388d08c60491634e"
+  },
+  "year": 2024,
+  "champion_driver": "Max Verstappen",
+  "champion_constructor": "McLaren",
+  "total_races": 24,
+  "regulations": "Ground Effect"
+},
+{
+  "_id": {
+    "$oid": "69ea5685388d08c604916350"
+  },
+  "year": 2022,
+  "champion_driver": "Max Verstappen",
+  "champion_constructor": "Red Bull",
+  "total_races": 22,
+  "regulations": "Ground Effect (Intro)"
+},
+{
+  "_id": {
+    "$oid": "69ea5685388d08c60491634f"
+  },
+  "year": 2023,
+  "champion_driver": "Max Verstappen",
+  "champion_constructor": "Red Bull",
+  "total_races": 22,
+  "regulations": "Ground Effect"
+},
+{
+  "_id": {
+    "$oid": "69ea5685388d08c604916351"
+  },
+  "year": 2021,
+  "champion_driver": "Max Verstappen",
+  "champion_constructor": "Mercedes",
+  "total_races": 22,
+  "regulations": "Hybrid Era"
+}]
