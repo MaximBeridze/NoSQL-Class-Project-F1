@@ -1,1 +1,44 @@
+# ======================
+# Python
+# ======================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# ======================
+# IDEs
+# ======================
+.vscode/
+.idea/
+
+# ======================
+# OS files
+# ======================
+.DS_Store
+Thumbs.db
+
+# ======================
+# Logs
+# ======================
+*.log
+
+# ======================
+# Mongo / Neo4j / secrets
+# ======================
 .env
+*.env
+
+# ======================
+# Data backups (optional - remove if you want to submit data)
+# ======================
+*.bak
+
+
+temporary_instruction.md
