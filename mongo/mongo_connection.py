@@ -4,5 +4,8 @@ import os
 
 load_dotenv()
 
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client["f1"]
+mongo_uri = os.getenv("MONGO_URI", "mongodb://localhost:27017")
+mongo_db = os.getenv("MONGO_DB", "f1")
+
+client = MongoClient(mongo_uri)
+db = client[mongo_db]

@@ -30,25 +30,24 @@ def _client():
 
 def cache_prediction(circuit_id: str, predictions: list) -> None:
     """
-    Cache the full prediction list for a circuit.
-    Stores as a HASH (same format as redis_service.store_prediction)
-    so the FastAPI GET /redis/predict/{circuit_id} endpoint can also read it.
+    Cache the full prediction list for CLI usage and the top 3 for API usage.
     """
-    key  = f"prediction:{circuit_id}"
-    r    = _client()
+    key = f"prediction:{circuit_id}"
+    r = _client()
     top3 = predictions[:3]
 
-    names    = [p.get("driverId", "?") for p in top3]
+    names = [p.get("driverId", "?") for p in top3]
     analysis = (
         f"CLI prediction for '{circuit_id}'. "
         f"Top drivers: {', '.join(names)}. "
-        f"Score = wins×10 + podiums×6 + points/10, weighted by circuit & team factors."
+        f"Score = wins×10 + podiums×6 + points/10, weighted by circuit and team factors."
     )
 
     pipe = r.pipeline()
     pipe.hset(key, mapping={
-        "top3":         json.dumps(top3),
-        "analysis":     analysis,
+        "predictions": json.dumps(predictions),
+        "top3": json.dumps(top3),
+        "analysis": analysis,
         "generated_at": datetime.utcnow().isoformat(),
     })
     pipe.expire(key, PREDICTION_TTL)
@@ -57,13 +56,18 @@ def cache_prediction(circuit_id: str, predictions: list) -> None:
 
 def get_cached_prediction(circuit_id: str) -> Optional[list]:
     """
-    Return the cached prediction list, or None if not cached.
-    Reads from HASH format (same as redis_service).
+    Return the cached full prediction list, or None if not cached.
     """
-    key  = f"prediction:{circuit_id}"
+    key = f"prediction:{circuit_id}"
     data = _client().hgetall(key)
 
-    if not data or "top3" not in data:
+    if not data:
         return None
 
-    return json.loads(data["top3"])
+    if "predictions" in data:
+        return json.loads(data["predictions"])
+
+    if "top3" in data:
+        return json.loads(data["top3"])
+
+    return None
