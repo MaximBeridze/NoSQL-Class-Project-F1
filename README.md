@@ -3,7 +3,7 @@
 This project builds a graph-based Formula 1 data model using Neo4j, MongoDB, and Redis. It also includes a prediction engine that estimates race outcomes using historical performance, circuit statistics, and team strength.
 
 ## Disclaimer:
-The race_results.jason dataset is a artifictially generated dataset to better simulate the project and is not refective of real world data
+The race_results.json dataset is an artificially generated dataset used to better simulate the project and is not reflective of real-world data.
 
 ---
 
@@ -197,9 +197,10 @@ The system will output predicted finishing probabilities for each driver.
 
 To preview data (driver, positions, points, etc):
 
-Through postman(or any API Testing software) send a get request to:
+Using Postman, or any API testing software, send a GET request to:
+
 ```bash
-localhost:8000/redis/standings/drivers
+http://localhost:8000/redis/standings/drivers
 ```
 
 ## Prediction Model

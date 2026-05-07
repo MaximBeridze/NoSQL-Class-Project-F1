@@ -1,9 +1,6 @@
 from neo4j_db.neo4j_connection import get_session
 
 
-from neo4j_db.neo4j_connection import get_session
-
-
 # -------------------------
 # CORE RUNNER
 # -------------------------
