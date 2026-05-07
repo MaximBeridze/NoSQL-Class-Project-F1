@@ -3,6 +3,7 @@ import sys
 from mongo.load_data import load_all as load_mongo
 from neo4j_db.build_graph import build_graph
 from prediction.prediction_engine import calculate_predictions
+from redis_db.redis_service import seed_all as seed_redis
 
 
 def run_load():
@@ -30,9 +31,17 @@ def run_predict():
         print(f"{i}. {p['driverId']} → {p['chance']}%")
 
 
+def run_seed_redis():
+    print("\n--- Seeding Redis data ---")
+    results = seed_redis()
+    print("Seeding results:", results)
+    print("Done.\n")
+
+
 def run_all():
     run_load()
     run_build()
+    run_seed_redis()
     run_predict()
 
 
@@ -41,12 +50,14 @@ def print_help():
 Usage:
   python index.py load       → Load MongoDB data
   python index.py build      → Build Neo4j graph
+  python index.py seed-redis → Seed Redis with data
   python index.py predict    → Run prediction
   python index.py all        → Run everything
 
 Examples:
   python index.py load
   python index.py build
+  python index.py seed-redis
   python index.py predict
   python index.py all
 """)
@@ -65,6 +76,9 @@ if __name__ == "__main__":
 
     elif command == "build":
         run_build()
+
+    elif command == "seed-redis":
+        run_seed_redis()
 
     elif command == "predict":
         run_predict()

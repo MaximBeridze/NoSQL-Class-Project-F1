@@ -1,6 +1,6 @@
 import json
 from typing import cast
-from redis_cache.redis_connection import get_redis_client
+from redis_db.redis_cache.redis_connection import get_redis_client
 
 redis_client = get_redis_client()
 

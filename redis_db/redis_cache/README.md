@@ -106,7 +106,7 @@ This will:
 ## Cache
 
 To initiate redis cache:
-Make sure you have docket destop running
+Make sure you have Docker Desktop running
 
 ```bash
 docker run -d --name redis -p 6379:6379 redis
@@ -145,6 +145,8 @@ The prediction engine combines:
 Final score is normalized into percentage probabilities.
 
 ---
+
+
 
 ## Common Issues
 

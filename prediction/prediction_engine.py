@@ -4,7 +4,7 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from mongo.mongo_connection import db
-from redis_cache.cache_predictions import get_cached_prediction, cache_prediction
+from redis_db.redis_cache.cache_predictions import get_cached_prediction, cache_prediction
 
 from neo4j_db.neo4j_repository import (
     get_driver_circuit_stats,
