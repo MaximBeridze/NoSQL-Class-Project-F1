@@ -1,6 +1,6 @@
 import json
 import os
-from mongo_connection import db
+from mongo.mongo_connection import db
 
 DATA_FOLDER = os.path.join(os.path.dirname(__file__), "..", "data")
 DATA_FOLDER = os.path.abspath(DATA_FOLDER)
@@ -12,7 +12,8 @@ files = {
     "driver_standings.json": "driver_standings",
     "races.json": "races",
     "seasons.json": "seasons",
-    "results.json": "results"
+    "results.json": "results",
+    "race_results.json": "race_results"
 }
 
 def clean_document(doc):

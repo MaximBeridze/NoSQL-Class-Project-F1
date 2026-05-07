@@ -1,4 +1,4 @@
-from neo4j_repository import (
+from neo4j_db.neo4j_repository import (
     get_top_drivers,
     find_connection
 )
