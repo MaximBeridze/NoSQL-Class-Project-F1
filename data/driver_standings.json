@@ -135,7 +135,7 @@
     "$oid": "69ea547b388d08c60491631a"
   },
   "position": 18,
-  "gasly": "norris",
+  "driverId": "gasly",
   "points": 22,
   "wins": 0,
   "podiums": 0,
@@ -146,7 +146,7 @@
     "$oid": "69ea547b388d08c60491631c"
   },
   "position": 20,
-  "colapinto": "norris",
+  "driverId": "colapinto",
   "points": 0,
   "wins": 0,
   "podiums": 0,
@@ -179,7 +179,7 @@
     "$oid": "69ea547b388d08c60491631b"
   },
   "position": 19,
-  "bortoleto": "norris",
+  "driverId": "bortoleto",
   "points": 19,
   "wins": 0,
   "podiums": 0,
