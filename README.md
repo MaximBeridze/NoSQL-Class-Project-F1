@@ -22,6 +22,12 @@ The race_results.jason dataset is a artifictially generated dataset to better si
 ## Project Structure
 
 ```
+redis_db/
+    __init__.py
+    redis_service.py
+    redisRoutes.py
+    redisModels.py
+    redis_cache/
 neo4j_db/
     neo4j_repository.py
     build_graph.py
@@ -29,8 +35,7 @@ prediction/
     prediction_engine.py
 mongo/
     mongo_connection.py
-redis_cache/
-    cache_predictions.py
+app.py
 index.py
 ```
 
@@ -58,7 +63,15 @@ pip install -r requirements.txt
 
 ## Environment Setup (.env)
 
-Create a `.env` file in the root of the project:
+You are provided with a `.env.example` file, create your `.env` from it with:
+
+```bash
+python app.py
+```
+
+If `.env` already exists, this command will not overwrite it.
+
+Then edit `.env` with your actual connection values if needed:
 
 ```bash
 NEO4J_URI=your_uri
@@ -105,11 +118,59 @@ This will:
 
 ## Cache
 
-To initiate redis cache:
-Make sure you have Docker Desktop running
+To initiate Redis cache, make sure Redis is running locally.
+
+Using Docker:
 
 ```bash
 docker run -d --name redis -p 6379:6379 redis
+```
+
+Or install Redis locally and start the service.
+
+---
+
+## Run API
+
+Start the FastAPI server:
+
+```bash
+python app.py
+```
+
+Or for development:
+
+```bash
+uvicorn app:app --reload
+```
+
+The API is available at:
+
+```text
+http://localhost:8000/redis
+```
+
+### Main API endpoints
+
+- `GET /redis/standings/drivers`
+- `GET /redis/standings/drivers/{driver_id}`
+- `PATCH /redis/standings/drivers/{driver_id}/points`
+- `GET /redis/standings/constructors`
+- `GET /redis/track/{circuit_id}/performance`
+- `GET /redis/track/{circuit_id}/driver/{driver_id}`
+- `POST /redis/race/{race_id}/init`
+- `GET /redis/race/{race_id}/live`
+- `PATCH /redis/race/{race_id}/driver/{driver_id}/lap`
+- `GET /redis/predict/{circuit_id}`
+
+---
+
+## Seed Redis Data
+
+Load Redis data from `data/` with:
+
+```bash
+python index.py seed-redis
 ```
 
 ---
@@ -131,6 +192,15 @@ Enter circuit id (e.g. imola): hungaroring
 The system will output predicted finishing probabilities for each driver.
 
 ---
+
+## Data Preview
+
+To preview data (driver, positions, points, etc):
+
+Through postman(or any API Testing software) send a get request to:
+```bash
+localhost:8000/redis/standings/drivers
+```
 
 ## Prediction Model
 
