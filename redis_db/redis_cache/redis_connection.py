@@ -1,12 +1,12 @@
 import os
-import redis_db
+import redis
 from dotenv import load_dotenv
 
 load_dotenv()
 
 def get_redis_client():
 
-    return redis_db.Redis(
+    return redis.Redis(
         host=os.getenv("REDIS_HOST", "localhost"),
         port=int(os.getenv("REDIS_PORT", 6379)),
         db=int(os.getenv("REDIS_DB", 0)),

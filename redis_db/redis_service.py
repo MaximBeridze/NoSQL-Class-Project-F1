@@ -21,7 +21,11 @@ import os
 import time
 from datetime import datetime
 from typing import Optional
+
+from dotenv import load_dotenv
 import redis
+
+load_dotenv()
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
