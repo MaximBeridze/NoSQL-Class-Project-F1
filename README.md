@@ -64,6 +64,7 @@ Create a `.env` file in the root of the project:
 NEO4J_URI=your_uri
 NEO4J_USER=your_user
 NEO4J_PASSWORD=your_password
+NEO4J_DATABASE=your_database
 
 MONGO_URI=your_uri
 MONGO_DB=f1
