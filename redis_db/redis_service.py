@@ -18,20 +18,18 @@ prediction:{circuit_id}            HASH  top3, analysis, generated_at   (TTL=1hr
 
 import json
 import os
-import time
 from datetime import datetime
 from typing import Optional
 
-from dotenv import load_dotenv
 import redis
-
-load_dotenv()
 
 REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 REDIS_DB   = int(os.getenv("REDIS_DB", 0))
 
-_pool = redis.ConnectionPool(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, decode_responses=True)
+_pool = redis.ConnectionPool(
+    host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, decode_responses=True
+)
 
 
 def get_redis() -> redis.Redis:
@@ -45,12 +43,10 @@ def get_redis() -> redis.Redis:
 def seed_all(data_dir: str = "data") -> dict:
     r = get_redis()
     results = {}
-
     results["driver_standings"]      = seed_driver_standings(r, data_dir)
     results["constructor_standings"] = seed_constructor_standings(r, data_dir)
     results["driver_profiles"]       = seed_driver_profiles(r, data_dir)
-    # results["track_performance"]     = seed_track_performance(r, data_dir)  # File doesn't exist
-
+    results["track_performance"]     = seed_track_performance(r, data_dir)
     return results
 
 
@@ -62,64 +58,76 @@ def seed_driver_standings(r: redis.Redis, data_dir: str) -> str:
     pipe = r.pipeline()
     pipe.delete("standings:drivers")
 
-    valid_entries = 0
+    seeded = 0
     for entry in standings:
-        # Handle inconsistent JSON structure - some entries have wrong key names
+        # All entries now use "driverId" — fixed in data/driver_standings.json
         driver_id = entry.get("driverId")
         if not driver_id:
-            # Try to find the driver ID from other possible keys
-            for key in entry.keys():
-                if key not in ["_id", "position", "points", "wins", "podiums", "status"] and isinstance(entry[key], str):
-                    driver_id = key
-                    break
-
-        if not driver_id:
-            print(f"Warning: Skipping entry without driverId: {entry}")
+            print(f"Warning: skipping malformed entry (no driverId): {entry}")
             continue
 
-        points = float(entry["points"])
-        pipe.zadd("standings:drivers", {driver_id: points})
-
-        # store extra metadata as a hash
+        pipe.zadd("standings:drivers", {driver_id: float(entry["points"])})
         pipe.hset(f"standing:driver:{driver_id}", mapping={
             "position": entry["position"],
             "wins":     entry["wins"],
             "podiums":  entry["podiums"],
             "status":   entry["status"],
         })
-        valid_entries += 1
+        seeded += 1
 
     pipe.execute()
-    return f"Seeded {valid_entries} driver standings"
+    return f"Seeded {seeded} driver standings"
 
 
 def seed_constructor_standings(r: redis.Redis, data_dir: str) -> str:
-    path = os.path.join(data_dir, "constructors.json")
-    with open(path) as f:
-        constructors = json.load(f)
+    """
+    Derive real constructor points by summing driver standings per team.
+    Reads driver_standings.json + drivers.json — no mock data.
+    """
+    standings_path = os.path.join(data_dir, "driver_standings.json")
+    drivers_path   = os.path.join(data_dir, "drivers.json")
+    teams_path     = os.path.join(data_dir, "teams.json")
+
+    with open(standings_path) as f:
+        standings = json.load(f)
+    with open(drivers_path) as f:
+        drivers = {d["_id"]: d for d in json.load(f)}
+    with open(teams_path) as f:
+        teams = {t["_id"]: t for t in json.load(f)}
+
+    # Aggregate points/wins/podiums per constructor
+    constructor_totals: dict[str, dict] = {}
+    for entry in standings:
+        driver_id = entry.get("driverId")
+        if not driver_id:
+            continue
+        driver  = drivers.get(driver_id, {})
+        team_id = driver.get("team_id")
+        if not team_id:
+            continue
+
+        if team_id not in constructor_totals:
+            constructor_totals[team_id] = {"points": 0, "wins": 0, "podiums": 0}
+
+        constructor_totals[team_id]["points"]  += entry.get("points", 0)
+        constructor_totals[team_id]["wins"]    += entry.get("wins", 0)
+        constructor_totals[team_id]["podiums"] += entry.get("podiums", 0)
 
     pipe = r.pipeline()
     pipe.delete("standings:constructors")
 
-    # Generate mock standings since no real standings file exists
-    for i, constructor in enumerate(constructors[:10], start=1):  # Top 10 constructors
-        cid = constructor["_id"]
-        # Mock points based on position
-        points = max(0, 500 - (i-1) * 50)
-        wins = max(0, 10 - i)
-        podiums = max(0, 20 - i * 2)
-
-        pipe.zadd("standings:constructors", {cid: points})
-
-        pipe.hset(f"constructor:{cid}", mapping={
-            "name":    constructor["name"],
-            "points":  str(points),
-            "wins":    str(wins),
-            "podiums": str(podiums),
+    for team_id, totals in constructor_totals.items():
+        team_name = teams.get(team_id, {}).get("name", team_id)
+        pipe.zadd("standings:constructors", {team_id: float(totals["points"])})
+        pipe.hset(f"constructor:{team_id}", mapping={
+            "name":    team_name,
+            "points":  totals["points"],
+            "wins":    totals["wins"],
+            "podiums": totals["podiums"],
         })
 
     pipe.execute()
-    return f"Seeded mock standings for {len(constructors[:10])} constructors"
+    return f"Seeded real constructor standings for {len(constructor_totals)} teams"
 
 
 def seed_driver_profiles(r: redis.Redis, data_dir: str) -> str:
@@ -141,27 +149,73 @@ def seed_driver_profiles(r: redis.Redis, data_dir: str) -> str:
 
 
 def seed_track_performance(r: redis.Redis, data_dir: str) -> str:
-    path = os.path.join(data_dir, "track_performance.json")
-    with open(path) as f:
+    """
+    Seed per-circuit driver performance scores from race_results.json.
+    Score = sum of (11 - position) for each finish (points-like, max 10 per race).
+    Falls back to track_performance.json if present.
+    """
+    # Try race_results.json first (real data)
+    race_results_path = os.path.join(data_dir, "race_results.json")
+    circuits_path     = os.path.join(data_dir, "circuits.json")
+
+    with open(circuits_path) as f:
+        circuits = {c["_id"]: c for c in json.load(f)}
+
+    if os.path.exists(race_results_path):
+        with open(race_results_path) as f:
+            results = json.load(f)
+
+        # Aggregate scores per circuit per driver
+        circuit_scores: dict[str, dict[str, float]] = {}
+        for r_entry in results:
+            circuit_id = r_entry["race_id"]
+            driver_id  = r_entry["driver_id"]
+            position   = r_entry["position"]
+            # Score: 10 for 1st, 9 for 2nd … 1 for 10th, 0 beyond
+            score = max(0, 11 - position)
+
+            if circuit_id not in circuit_scores:
+                circuit_scores[circuit_id] = {}
+            circuit_scores[circuit_id][driver_id] = (
+                circuit_scores[circuit_id].get(driver_id, 0) + score
+            )
+
+        pipe = r.pipeline()
+        for circuit_id, driver_scores in circuit_scores.items():
+            key = f"track:perf:{circuit_id}"
+            pipe.delete(key)
+            for driver_id, score in driver_scores.items():
+                pipe.zadd(key, {driver_id: score})
+
+            circuit_info = circuits.get(circuit_id, {})
+            pipe.hset(f"circuit:{circuit_id}", mapping={
+                "name": circuit_info.get("name", circuit_id),
+                "type": circuit_info.get("type", "Unknown"),
+            })
+
+        pipe.execute()
+        return f"Seeded track performance for {len(circuit_scores)} circuits from race_results.json"
+
+    # Fallback: track_performance.json
+    fallback_path = os.path.join(data_dir, "track_performance.json")
+    if not os.path.exists(fallback_path):
+        return "No track performance data found (race_results.json or track_performance.json required)"
+
+    with open(fallback_path) as f:
         tracks = json.load(f)
 
     pipe = r.pipeline()
-    count = 0
     for track in tracks:
         key = f"track:perf:{track['circuit_id']}"
         pipe.delete(key)
         for entry in track["driver_scores"]:
             pipe.zadd(key, {entry["driverId"]: float(entry["score"])})
-
-        # store circuit metadata
         pipe.hset(f"circuit:{track['circuit_id']}", mapping={
             "name": track["circuit_name"],
             "type": track["type"],
         })
-        count += 1
-
     pipe.execute()
-    return f"Seeded performance data for {count} circuits"
+    return f"Seeded performance data for {len(tracks)} circuits from track_performance.json"
 
 
 # ─────────────────────────────────────────────
@@ -169,11 +223,12 @@ def seed_track_performance(r: redis.Redis, data_dir: str) -> str:
 # ─────────────────────────────────────────────
 
 def get_driver_standings(r: redis.Redis, top_n: int = 20) -> list[dict]:
-    """Return top_n drivers sorted by points descending."""
-    entries = r.zrevrangebyscore("standings:drivers", "+inf", "-inf", withscores=True, start=0, num=top_n)
+    entries = r.zrevrangebyscore(
+        "standings:drivers", "+inf", "-inf", withscores=True, start=0, num=top_n
+    )
     results = []
     for rank, (driver_id, points) in enumerate(entries, start=1):
-        meta = r.hgetall(f"standing:driver:{driver_id}")
+        meta    = r.hgetall(f"standing:driver:{driver_id}")
         profile = r.hgetall(f"driver:{driver_id}")
         results.append({
             "rank":      rank,
@@ -189,11 +244,10 @@ def get_driver_standings(r: redis.Redis, top_n: int = 20) -> list[dict]:
 
 
 def get_driver_rank(r: redis.Redis, driver_id: str) -> Optional[dict]:
-    """Return a single driver's rank and points."""
     points = r.zscore("standings:drivers", driver_id)
     if points is None:
         return None
-    rank = r.zrevrank("standings:drivers", driver_id)
+    rank    = r.zrevrank("standings:drivers", driver_id)
     meta    = r.hgetall(f"standing:driver:{driver_id}")
     profile = r.hgetall(f"driver:{driver_id}")
     return {
@@ -209,7 +263,6 @@ def get_driver_rank(r: redis.Redis, driver_id: str) -> Optional[dict]:
 
 
 def update_driver_points(r: redis.Redis, driver_id: str, delta: float) -> dict:
-    """Atomically add delta points to a driver and return new score."""
     new_score = r.zincrby("standings:drivers", delta, driver_id)
     rank      = r.zrevrank("standings:drivers", driver_id)
     return {"driver_id": driver_id, "new_points": int(new_score), "new_rank": rank + 1}
@@ -256,12 +309,11 @@ def get_constructor_rank(r: redis.Redis, constructor_id: str) -> Optional[dict]:
 # ─────────────────────────────────────────────
 
 def get_track_performance(r: redis.Redis, circuit_id: str, top_n: int = 10) -> Optional[dict]:
-    """Return top_n drivers by performance score on a given circuit."""
     key = f"track:perf:{circuit_id}"
     if not r.exists(key):
         return None
 
-    entries = r.zrevrangebyscore(key, "+inf", "-inf", withscores=True, start=0, num=top_n)
+    entries      = r.zrevrangebyscore(key, "+inf", "-inf", withscores=True, start=0, num=top_n)
     circuit_meta = r.hgetall(f"circuit:{circuit_id}")
 
     rankings = []
@@ -306,14 +358,11 @@ def update_track_score(r: redis.Redis, circuit_id: str, driver_id: str, score: f
 # LIVE RACE STATE
 # ─────────────────────────────────────────────
 
-def init_live_race(r: redis.Redis, race_id: str, race_name: str, total_laps: int, drivers: list[dict]) -> dict:
-    """
-    Initialise a live race session.
-    drivers: list of {"driver_id": str, "start_position": int, "tyre": str}
-    """
+def init_live_race(
+    r: redis.Redis, race_id: str, race_name: str, total_laps: int, drivers: list[dict]
+) -> dict:
     pipe = r.pipeline()
 
-    # race metadata
     pipe.hset(f"race:live:{race_id}:meta", mapping={
         "race_name":   race_name,
         "total_laps":  total_laps,
@@ -322,7 +371,6 @@ def init_live_race(r: redis.Redis, race_id: str, race_name: str, total_laps: int
         "started_at":  datetime.utcnow().isoformat(),
     })
 
-    # position order sorted set (lower score = higher position)
     order_key = f"race:live:{race_id}:order"
     pipe.delete(order_key)
 
@@ -340,12 +388,10 @@ def init_live_race(r: redis.Redis, race_id: str, race_name: str, total_laps: int
         })
 
     pipe.execute()
-
     return {"race_id": race_id, "status": "initialised", "drivers": len(drivers)}
 
 
 def get_live_race_order(r: redis.Redis, race_id: str) -> Optional[dict]:
-    """Return current running order for a live race."""
     meta_key = f"race:live:{race_id}:meta"
     if not r.exists(meta_key):
         return None
@@ -390,7 +436,6 @@ def update_driver_lap_state(
     pit: bool = False,
     driver_status: str = "Racing",
 ) -> dict:
-    """Update a single driver's state mid-race."""
     pipe = r.pipeline()
 
     update = {
@@ -407,13 +452,12 @@ def update_driver_lap_state(
     pipe.hset(f"race:live:{race_id}:driver:{driver_id}", mapping=update)
     pipe.zadd(f"race:live:{race_id}:order", {driver_id: position})
     pipe.hset(f"race:live:{race_id}:meta", "current_lap", lap)
-
     pipe.execute()
+
     return {"race_id": race_id, "driver_id": driver_id, "position": position, "lap": lap}
 
 
 def finish_race(r: redis.Redis, race_id: str) -> dict:
-    """Mark a race as finished."""
     r.hset(f"race:live:{race_id}:meta", mapping={
         "status":      "finished",
         "finished_at": datetime.utcnow().isoformat(),
@@ -422,13 +466,12 @@ def finish_race(r: redis.Redis, race_id: str) -> dict:
 
 
 def list_active_races(r: redis.Redis) -> list[str]:
-    """Return all race IDs that are not finished."""
-    keys    = r.keys("race:live:*:meta")
-    active  = []
+    keys   = r.keys("race:live:*:meta")
+    active = []
     for key in keys:
         status  = r.hget(key, "status")
         race_id = key.split(":")[2]
-        if status not in ("finished",):
+        if status != "finished":
             active.append(race_id)
     return active
 
@@ -437,26 +480,26 @@ def list_active_races(r: redis.Redis) -> list[str]:
 # PREDICTION CACHE
 # ─────────────────────────────────────────────
 
-PREDICTION_TTL = 3600  # 1 hour
+PREDICTION_TTL = 3600
 
 
 def get_cached_prediction(r: redis.Redis, circuit_id: str) -> Optional[dict]:
-    key = f"prediction:{circuit_id}"
+    key  = f"prediction:{circuit_id}"
     data = r.hgetall(key)
-    if not data:
+    if not data or "top3" not in data:
         return None
     return {
         "circuit_id":   circuit_id,
         "top3":         json.loads(data["top3"]),
-        "analysis":     data["analysis"],
-        "generated_at": data["generated_at"],
+        "analysis":     data.get("analysis", ""),
+        "generated_at": data.get("generated_at", ""),
         "cached":       True,
     }
 
 
 def store_prediction(r: redis.Redis, circuit_id: str, top3: list[dict], analysis: str) -> dict:
-    key  = f"prediction:{circuit_id}"
-    now  = datetime.utcnow().isoformat()
+    key = f"prediction:{circuit_id}"
+    now = datetime.utcnow().isoformat()
     pipe = r.pipeline()
     pipe.hset(key, mapping={
         "top3":         json.dumps(top3),
@@ -470,16 +513,13 @@ def store_prediction(r: redis.Redis, circuit_id: str, top3: list[dict], analysis
 
 def generate_prediction(r: redis.Redis, circuit_id: str) -> dict:
     """
-    Generate a prediction for a circuit without ML.
+    Generate a top-3 prediction for a circuit without ML.
 
     Algorithm:
-    1. Fetch track performance scores for the circuit (ZSET).
-    2. Fetch current driver standings points (ZSET).
-    3. Compute a composite score: 60% track score + 40% normalised championship points.
-    4. Return ranked top 3.
+      composite = 60% × track_performance_score + 40% × normalised_championship_points
     """
-    track_key      = f"track:perf:{circuit_id}"
-    circuit_meta   = r.hgetall(f"circuit:{circuit_id}")
+    track_key    = f"track:perf:{circuit_id}"
+    circuit_meta = r.hgetall(f"circuit:{circuit_id}")
 
     if not r.exists(track_key):
         return {"error": f"No track performance data for circuit '{circuit_id}'"}
@@ -488,16 +528,20 @@ def generate_prediction(r: redis.Redis, circuit_id: str) -> dict:
     if not track_entries:
         return {"error": "No driver data for this circuit"}
 
-    # normalise championship points (max points driver gets 100)
-    max_points = r.zscore("standings:drivers",
-                           r.zrevrangebyscore("standings:drivers", "+inf", "-inf", start=0, num=1)[0])
-    max_points = max(max_points or 1, 1)
+    top_driver_id  = r.zrevrangebyscore("standings:drivers", "+inf", "-inf", start=0, num=1)
+    max_points     = r.zscore("standings:drivers", top_driver_id[0]) if top_driver_id else 1
+    max_points     = max(max_points or 1, 1)
+
+    # Normalise track scores to 0-100 range
+    track_scores   = [score for _, score in track_entries]
+    max_track      = max(track_scores) if track_scores else 1
 
     composite = {}
     for driver_id, track_score in track_entries:
-        champ_points = r.zscore("standings:drivers", driver_id) or 0
-        norm_champ   = (champ_points / max_points) * 100
-        composite[driver_id] = round(0.60 * track_score + 0.40 * norm_champ, 2)
+        norm_track  = (track_score / max_track) * 100
+        champ_pts   = r.zscore("standings:drivers", driver_id) or 0
+        norm_champ  = (champ_pts / max_points) * 100
+        composite[driver_id] = round(0.60 * norm_track + 0.40 * norm_champ, 2)
 
     ranked = sorted(composite.items(), key=lambda x: x[1], reverse=True)
 
@@ -515,7 +559,7 @@ def generate_prediction(r: redis.Redis, circuit_id: str) -> dict:
     analysis = (
         f"Prediction for {circuit_meta.get('name', circuit_id)} "
         f"({circuit_meta.get('type', 'Unknown')} circuit). "
-        f"Composite score = 60% historical track performance + 40% current championship standing."
+        f"Composite score = 60% normalised track performance + 40% normalised championship standing."
     )
 
     store_prediction(r, circuit_id, top3, analysis)
